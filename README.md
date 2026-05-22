@@ -1,16 +1,19 @@
 # 🔍 Dynatrace Problem Monitor
 
-A lightweight Flask-based microservice that connects to the Dynatrace API v2 to fetch and display active problems from your Dynatrace environment.
+A Flask-based microservice that integrates with the Dynatrace API v2 to fetch and manage monitoring problems.
 
 ---
 
 ## 📌 Features
 
-- REST API built with Flask
-- Fetches real-time active problems from Dynatrace
-- Secure API token loading via environment variables
-- JSON response via `/problems` endpoint
-- Flask-based microservice architecture
+- Flask-based REST microservice
+- Dynatrace Problems API integration
+- Fetch all active problems
+- Fetch specific problem details
+- Structured backend architecture
+- Response transformation using models
+- Secure API token handling using `.env`
+- Unit testing and integration testing
 
 ---
 
@@ -18,21 +21,39 @@ A lightweight Flask-based microservice that connects to the Dynatrace API v2 to 
 
 ```text
 dynatrace/
+│
+├── app/
+│   ├── auth/
+│   │   └── auth.py
+│   │
+│   ├── models/
+│   │   └── problem_model.py
+│   │
+│   ├── routes/
+│   │   └── problems.py
+│   │
+│   ├── services/
+│   │   └── dynatrace_service.py
+│   │
+│   └── tests/
+│       ├── test_unit.py
+│       └── test_integration.py
+│
 ├── service.py
 ├── requirements.txt
-├── .gitignore
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
 ## ⚙️ Setup & Installation
 
-### 1. Clone the Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/MadhumithaSivaprakasam/dynatrace-api.git
-cd dynatrace
+cd dynatrace-api
 ```
 
 ### 2. Create Virtual Environment
@@ -65,17 +86,17 @@ pip install -r requirements.txt
 
 ## 🔐 Configure Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file:
 
 ```text
-DYNATRACE_API_TOKEN=your_dynatrace_api_token
+DYNATRACE_API_TOKEN=your_api_token
 ```
 
 ⚠️ Never upload `.env` to GitHub.
 
 ---
 
-## 🚀 Run the Microservice
+## 🚀 Run the Application
 
 ```bash
 python service.py
@@ -93,36 +114,23 @@ http://127.0.0.1:5000
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | Health check endpoint |
-| GET | `/problems` | Returns active Dynatrace problems |
+| GET | `/` | Health check |
+| GET | `/problems` | Fetch all problems |
+| GET | `/problems/<problem_id>` | Fetch specific problem details |
 
 ---
 
-## 📌 Example Endpoint
+## 🧪 Running Tests
 
-```text
-http://127.0.0.1:5000/problems
-```
-
----
-
-## 🔄 Project Workflow
-
-```text
-Browser / Client
-        ↓
-Flask Microservice
-        ↓
-Dynatrace Problems API
-        ↓
-JSON Response
+```bash
+pytest app/tests
 ```
 
 ---
 
 ## 🛡️ Security
 
-API tokens are securely stored using environment variables through a `.env` file instead of hardcoding secrets inside source code.
+API tokens are securely stored using environment variables and loaded through `.env`.
 
 ---
 
@@ -130,7 +138,8 @@ API tokens are securely stored using environment variables through a `.env` file
 
 - Python
 - Flask
-- requests
-- python-dotenv
+- Requests
+- Pytest
 - REST API
 - JSON
+- python-dotenv
